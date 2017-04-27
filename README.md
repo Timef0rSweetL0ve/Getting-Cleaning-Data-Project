@@ -68,22 +68,23 @@ raw dataset to generate a tidy data file, called `final_tidyData.txt`
 
 ### Functions of *run\_analysis.R* script
 
-1.  Downloads the dataset from the URL mentioned above and unzips it to
+-   Downloads the dataset from the URL mentioned above and unzips it to
     create UCI HAR Dataset folder.
-2.  Reads ‘test’ and ‘train’ data sets into R as data frames, then
+-   Reads ‘test’ and ‘train’ data sets into R as data frames, then
     combines them by row to create one data frame for each coordinate
     (x, y, subject).
-3.  Labels the data set with measurement variable names. Extracts a
+
+1.  Labels the data set with measurement variable names. Extracts a
     subset of data with only the measurements on the mean `mean()` and
     standard deviation `std()` for each measurement.
-4.  Assigns names showing descriptive activities (LAYING, STANDING,
+2.  Assigns names showing descriptive activities (LAYING, STANDING,
     SITTING, etc) to corresponding numbers to improve readability.
-5.  Labels the data set with descriptive variable names.
-6.  Creates a second independent data set by combine all the columns as
+3.  Labels the data set with descriptive variable names.
+4.  Creates a second independent data set by combine all the columns as
     one data set, arrange all columns by `SubjectID` and `Activity`.
     Reshapes newly created second data set to calculate the average of
     each variable for each activity and each subject.
-7.  Writes new tidy data frame to a text file to create the required
+5.  Writes new tidy data frame to a text file to create the required
     tidy data set file of **180** observations and **68** columns(**2**
     columns for `Activity` and `SubjectID` and **66** columns for
     measurement variables)
