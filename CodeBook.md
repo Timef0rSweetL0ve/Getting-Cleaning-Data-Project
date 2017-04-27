@@ -46,9 +46,101 @@ The dataset includes the following files:
 Explanation of Variable Names:
 ------------------------------
 
-Variable Names Explanation \* SubjectID ID identifies each participant
-in the experiment \* Activity 6 levels: LAYING, SITTING, STANDING,
-WALKING, WALKING\_DOWNSTAIRS, WALKING\_UPSTAIRS \* tBodyAcc-mean()-XYZ
-Mean value for time domain of body acceleration in the x, y, z
-directions \* tBodyAcc-std()-XYZ Standard deviation for time domain of
-body acceleration in the x, y, z directions
+-   SubjectID: ID identifies each participant in the experiment
+-   Activity: 6 levels - LAYING, SITTING, STANDING, WALKING,
+    WALKING\_DOWNSTAIRS, WALKING\_UPSTAIRS
+-   tBodyAcc-mean()-XYZ: Mean value for time domain of body acceleration
+    in the x, y, z directions
+-   tBodyAcc-std()-XYZ: Standard deviation for time domain of body
+    acceleration in the x, y, z directions
+-   tGravityAcc-mean()-XYZ: Mean value for time domain of gravity
+    acceleration in the x, y, z directions
+-   tGravityAcc-std()-XYZ: Standard deviation for time domain of gravity
+    acceleration in the x, y, z directions
+-   tBodyAccJerk-mean()-XYZ: Mean value for time domain of body
+    acceleration with jerk signal in the x, y, z directions
+-   tBodyAccJerk-std()-XYZ: Standard deviation for time domain of body
+    acceleration with jerk signal in the x, y, z directions
+-   tBodyGyro-mean()-XYZ: Mean value for time domain of body gyro in the
+    x, y, z directions
+-   tBodyGyro-std()-XYZ: Standard deviation for time domain of bogy gyro
+    in the x, y, z directions
+-   tBodyGyroJerk-mean()-XYZ: Mean value for time domain of body gyro
+    with jerk signal in the x, y, z directions
+-   tBodyGyroJerk-std()-XYZ: Standard deviation for time domain of body
+    gyro with jerk signal in the x, y, z directions
+-   tBodyAccMag-mean(): Mean value for time domain of body acceleration
+    in magnitude
+-   tBodyAccMag-std(): Standard deviation for time domain of body
+    acceleration in magnitude
+-   tGravityAccMag-mean(): Mean value for time domain of gravity
+    acceleration in magnitude
+-   tGravityAccMag-std(): Standard deviation for time domain of gravity
+    acceleration in magnitude
+-   tBodyAccJerkMag-mean(): Mean value for time domain of body
+    acceleration with jerk signal in magnitude
+-   tBodyAccJerkMag-std(): Standard deviation for time domain of body
+    acceleration with jerk signal in magnitude
+-   tBodyGyroMag-mean(): Mean value for time domain of body gyro in
+    magnitude
+-   tBodyGyroMag-std(): Standard deviation for time domain of body gyro
+    in magnitude
+-   tBodyGyroJerkMag-mean(): Mean value for time domain of body gyro
+    with jerk signal in magnitude
+-   tBodyGyroJerkMag-std(): Standard deviation for time domain of body
+    gyro with jerk signal in magnitude
+-   fBodyAcc-mean()-XYZ: Mean value for frequency domain of body
+    acceleration in the x, y, z directions
+-   fBodyAcc-std()-XYZ: Standard deviation for frequency domain of body
+    acceleration in the x, y, z directions
+-   fBodyAccJerk-mean()-XYZ: Mean value for frequency domain of body
+    acceleration with jerk signal in the x, y, z directions
+-   fBodyAccJerk-std()-XYZ: Standard deviation for frequency domain of
+    body acceleration with jerk signal in the x, y, z directions
+-   fBodyGyro-mean()-XYZ: Mean value for frequency domain of body gyro
+    in the x, y, z directions
+-   fBodyGyro-std()-XYZ: Standard deviation for frequency domain of body
+    gyro in the x, y, z directions
+-   fBodyAccMag-mean(): Mean value for frequency domain of body
+    acceleration in magnitude
+-   fBodyAccMag-std(): Standard deviation for frequency domain of body
+    acceleration in magnitude
+-   fBodyBodyAccJerkMag-mean(): Mean value for frequency domain of body
+    acceleration with jerk signal in magnitude
+-   fBodyBodyAccJerkMag-std(): Standard deviation for frequency domain
+    of body acceleration with jerk signal in magnitude
+-   fBodyBodyGyroMag-mean(): Mean value for frequency domain of body
+    gyro in magnitude
+-   fBodyBodyGyroMag-std(): Standard deviation for frequency domain of
+    body gyro in magnitude
+-   fBodyBodyGyroJerkMag-mean(): Mean value for frequency domain of body
+    gyro with jerk signal in magnitude
+-   fBodyBodyGyroJerkMag-std(): Standard deviation for frequency domain
+    of body gyro with jerk signal in magnitude
+
+Detail Description of Steps in Getting and Cleaning Data in run\_analysis.R script
+----------------------------------------------------------------------------------
+
+### 1. Merging the training and test sets to create one data set
+
+-   Downloads original data source and create UCI HAR Dataset folder.
+-   Sets current directory of the data folder in R.
+-   Reads ‘test’ and ‘train’ data sets into R as data frames using
+    read.table
+-   Combine them by rows to create one data frame for each coordinate
+    (x, y, subject) using rbind.
+
+<!-- -->
+
+    setwd("~/Getting-Cleaning-Data-Project")         
+    subjectTest <- read.table("./test/subject_test.txt")
+    xTest <- read.table("./test/X_test.txt")
+    yTest <- read.table("./test/Y_test.txt")
+
+    subjectTrain <- read.table("./train/subject_train.txt") 
+    xTrain <- read.table("./train/X_train.txt")
+    yTrain <- read.table("./train/Y_train.txt")
+
+    subjectData <- rbind(subjectTest, subjectTrain)
+    xData <- rbind(xTest, xTrain)
+    yData <- rbind(yTest, yTrain)
