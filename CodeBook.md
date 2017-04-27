@@ -128,7 +128,7 @@ Detail Description of Steps in Getting and Cleaning Data in run\_analysis.R scri
 -   Reads ‘test’ and ‘train’ data sets into R as data frames using
     read.table
 -   Combine them by rows to create one data frame for each coordinate
-    (x, y, subject) using rbind.
+    (x, y, subject) using `rbind()`.
 
 <!-- -->
 
@@ -144,3 +144,68 @@ Detail Description of Steps in Getting and Cleaning Data in run\_analysis.R scri
     subjectData <- rbind(subjectTest, subjectTrain)
     xData <- rbind(xTest, xTrain)
     yData <- rbind(yTest, yTrain)
+
+### 2. Extracts only the measurements on the mean and standard deviation for each measurement.
+
+-   Reads *features.txt* file into R using `read.table()`.
+-   Labels the data set with measurement variable names.
+-   Extracts a subset of data with only the measurements on the mean
+    `mean()` and standard deviation `std()` for each measurement using
+    `grep()` command and subsetting.
+
+<!-- -->
+
+    feature_vars <- read.table("./features.txt")
+    colnames(xData) <- feature_vars[,2]
+    mean_std_xData <- xData[, grep("-(mean|std)\\(\\)", feature_vars[,2])]
+
+### 3. Using names showing descriptive activity to name activities in data set
+
+-   Reads *activity\_labels.txt* file into R using `read.table()`
+-   Assigns names showing descriptive activities (LAYING, STANDING,
+    SITTING, etc) to corresponding numbers to improve readability.
+
+<!-- -->
+
+    activity_labels <- read.table("./activity_labels.txt")
+    yData[,1] <- activity_labels[yData[,1],2]
+
+### 4. Labeling the data set with descriptive variable names using `colnames()`
+
+    colnames(yData) <- "Activity"
+    colnames(subjectData) <- "SubjectID"
+
+### 5. Creating a second independent data set with the average of each variable for each activity and each subject
+
+-   Creates a second independent data set by combine all the columns as
+    one data set using cbind() \* Arranges all columns by `SubjectID`
+    and `Activity` using `order()` and subsetting.
+-   Loads `reshape2` package into R. Reshapes newly created second data
+    set to calculate the average of each variable for each activity and
+    each subject using `melt()` and `dcast()`.
+    -   `melt()` creates a new data set from `orderedData2` by
+        converting variables and values from rows to columns with
+        guidance of particular `id` and `measure.vars`
+    -   `dcast()` obtains data from `meltData` and calculate the mean of
+        each measurement variable for each subject and each activity.
+        `dcast()` converts data from columns to rows and stores data in
+        `avgData`.
+-   Writes new tidy data frame to a text file to create a tidy data set
+    file of **180** observations and **68** columns(**2** columns for
+    `Activity` and `SubjectID` and **66** columns for
+    measurement variables). The *.text* format for the tidy data set is
+    called *final\_tidyData.txt*
+
+<!-- -->
+
+    completeData2 <- cbind(subjectData, yData, mean_std_xData)
+    orderedData2 <- completeData2[order(completeData2$SubjectID, completeData2$Activity), ]
+    dataLabel <- setdiff(colnames(completeData2), c("SubjectID", "Activity"))
+    library(reshape2)
+    meltData <- melt(orderedData2, id = c("SubjectID", "Activity"), measure.vars = dataLabel)
+    avgData <- dcast(meltData, SubjectID + Activity~variable, mean)
+    write.table(avgData, file = "./final_tidyData.txt")
+
+### Running the script by sourcing the script from your working directory in R :
+
+     `source(run_analysis.R)`
